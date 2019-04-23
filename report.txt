@@ -1,0 +1,58 @@
+
+APPROXIMATE STRING SEARCH ALGORITHMS
+Levenshtein distance (m,i,d,r) = (0,1,1,1)
+N-grams (python or c wrapper again)
+
+DATA PROCESSING
+In 'misspell.txt', there are 10,322 words. However, there are only 3,755 unique misspelled words.
+Duplicates misspelled words are filtered to avoid redundant calculations in order to reduce run-time of code.
+In 'dict.txt', there are 370,099 unique words
+In 'correct.txt', there are also 10,322 words. However, there are only 3,516 unique corrected words.
+
+INTERESTING OBSERVATIONS OF DATA
+1,778 of the 10,322 words in 'correct.txt' are not even in the dictionary
+Out of the 3,516 unique 'correct.txt' words, 1,191 are not in the dictionary (~33.8%)
+
+
+METHOD
+PART 1
+    1. For every unique misspelled word, get best match(es), stored in a results dictionary
+        (a) If there is more than one match, break ties with
+    2. For every unique (misspelled, correct) pair, evaluate whether 'correct' is in 'match(es)'
+    3. Evaluate precision and recall
+
+PART 2
+    1. Remove pairs of (misspelled, correct) words where correct is not even in 'dict.txt'
+    2. Repeat PART 1
+
+
+IMPLEMENTATION
+Code written in python
+Compiled C code function Levenshtein distance is imported for run-time efficiency
+Then break ties via n-grams
+
+EVALUATION METHODS
+Precision = number of correct results returned / total number of results returned = (1+1)/(10+2) = 2/12
+Recall    = number of correct results returned / total number of possible correct results = (1+1)/(1+1) = 2/2
+          NB: Recall uses only words in 'correct.txt' for words in the denominator
+
+
+
+=================================
+LMS DATA OBSERVATION
+=================================
+> ...Perhaps you should focus on what can be done, instead of what can't.
+Hi Jeremy,
+According to my understanding, for a token in 'misspell.txt' to be successfully changed to the corresponding token in
+'correct.txt', by checking 'dictionary.txt', there are some conditions:
+1. The canonical form has to also appear in 'dict.txt'(for example, 'opolo' , "can't", '9am' do not appear in 'dict.txt',
+   it is impossible to return these correct words);
+2. if misspelled token is not the same as the correct token, the misspell token itself cannot appear in 'dict.txt'
+   (for example, misspelled token 'u' with canonical form 'you' cannot be corrected, as 'u' appears in 'dict.txt'.
+   No matter what approx. string match algorithm learnt are used, we will end up with wrongly returning 'u' as canonical form)
+
+Now if we ignore all tokens that cannot be corrected (as discussed above), and all tokens that are already in their
+canonical form (for example, 'rt' in 'misspell.txt' has its canonical form 'rt', which can also be found in 'dict.txt'),
+I found that there are only around 3% of tokens in 'misspell.txt' that need to be and can possibly be corrected.
+
+Is the projected made in this way intentionally? Or I misunderstand something?
