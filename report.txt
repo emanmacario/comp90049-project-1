@@ -1,7 +1,15 @@
 
 APPROXIMATE STRING SEARCH ALGORITHMS
 Levenshtein distance (m,i,d,r) = (0,1,1,1)
-N-grams (python or c wrapper again)
+Damerau-Levenshtein distance = Levenshtein extended, allows for transpositions of adjacent characters
+
+
+HYPOTHESIS:
+DLD will perform worse than LD since LD will allow for more incorrect matches to be returned
+as a result of more slack than LD. i.e. LD is stricter than DLD in the sense that it only allows 3
+operations, whereas DLD allows 4.
+
+
 
 DATA PROCESSING
 In 'misspell.txt', there are 10,322 words. However, there are only 3,755 unique misspelled words.
@@ -31,11 +39,17 @@ Code written in python
 Compiled C code function Levenshtein distance is imported for run-time efficiency
 Then break ties via n-grams
 
+EFFICIENCY
+Levenshtein (Desktop)
+    real    26m15.974s
+    user    25m43.719s
+    sys     0m2.047s
+
+
 EVALUATION METHODS
 Precision = number of correct results returned / total number of results returned = (1+1)/(10+2) = 2/12
 Recall    = number of correct results returned / total number of possible correct results = (1+1)/(1+1) = 2/2
           NB: Recall uses only words in 'correct.txt' for words in the denominator
-
 
 
 =================================
@@ -56,3 +70,9 @@ canonical form (for example, 'rt' in 'misspell.txt' has its canonical form 'rt',
 I found that there are only around 3% of tokens in 'misspell.txt' that need to be and can possibly be corrected.
 
 Is the projected made in this way intentionally? Or I misunderstand something?
+
+
+================================
+BIBLIOGRAPHY
+================================
+https://link.springer.com/chapter/10.1007/11575832_13
