@@ -37,7 +37,7 @@ int levenshtein(char *s1, char *s2) {
 // and on my Python implementation: <https://gist.github.com/badocelot/5327337>
 //
 // Source: https://gist.github.com/badocelot/5331587
-int damerau_levenshtein_distance(const char *source, const char *target)
+int damerau_levenshtein(const char *source, const char *target)
 {
     // Size of the strings and dimensions of the matrix
     int m = 0;
