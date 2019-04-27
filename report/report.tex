@@ -1,0 +1,131 @@
+\documentclass[11pt]{article}
+\usepackage{colacl}
+\sloppy
+
+
+
+\title{COMP90049 Knowledge Technologies - Project 1 Report}
+\author
+{Anonymous}
+
+
+
+\begin{document}
+\maketitle
+
+
+%\begin{abstract}
+%This is a \LaTeX\ sample for your paper.
+%You shouldn't plan to include an abstract for a paper of this length.
+%\end{abstract}
+
+\section{Introduction}
+Lexical normalisation is the problem of finding a canonical form for each token within a document. The task of quantifying the similarity between two strings in numerous applications, with many similarity measures being proposed. The most well-known used algorithms are based on simple measures such as edit-distance and n-gram similarity. In contrast, other forms of normalisation are based on phonetic similarity, rather than lexical similarity. 
+
+The task of this project is to leverage spelling correction methods for each token within a document. The document will correspond to short messages, i.e. tweets from the social media platform Twitter.The focus of this report will be to contrast two approximate string matching techniques, based on edit-distance. Mainly, the core focus of this report will be to reveal which technique performs better, with respect to computational efficiency and numerous evaluation methods.
+
+\section{Dataset}
+
+The data given is a collection of words composed of English alphabetical symbols, some standard English words, while many are non-standard lexical items.
+More specifically, the dataset, curated by [1] et. al, comprises of 10,322 misspelled token and corrected token pairs, lowercased, and a reference dictionary containing 370,099 possible matches, sorted alphabetically. For each misspelled token in the dataset, lexical normalisation was attempted by predicting the best possible matches with respect to the reference collection.
+
+
+
+
+
+\section{Edit Distance}
+In this section, we discuss the notion edit distance in the context of its applicability as a string similarity measure. Levenshtein distance (LD), with parameters (m,i,d,r) = (0, 1, 1, 1) is a widely used string similarity measure. Informally, the Levenshtein distance between two words is the minimum number of single character edits (insertions, deletions, or replacements) required to change one word into another. An extension thereof is the Dameru-Levenshtein distance (DLD), which differs from LD by including transposition of two adjacent characters among its allowable operations in addition to the three classical aforementioned single-character edit operations. For both the standard and extended variations, a lower value indicates greater similarity between two strings.
+
+
+\section{Evaluation Methods}
+For 
+
+
+
+
+
+\subsection{Subsection}
+
+Text of the subsection with citations such as 
+\newcite{Spa72}, \newcite{Kay86} and \newcite{MosWal64}.
+Note that the citation style is defined in the accompanying
+style file; it is similar to AAAI house style. You may use
+other (formal) citation styles if you prefer.
+
+
+Text,\footnote{Footnote text} with footnotes at bottom of page.
+
+
+The dataset that has been curated by [1][2] comprises of a 
+Text of the subsubsection (see Table~\ref{table1}).
+
+\begin{table}[h]
+ \begin{center}
+\begin{tabular}{|l|l|}
+
+      \hline
+      Corpus & Features\\
+      \hline\hline
+      AAA & 1M words\\
+      BBB & spoken corpus (expensive)\\
+      CCC & 2M words\\
+        & free (to academics)\\
+      \hline
+
+\end{tabular}
+\caption{The caption of the table}\label{table1}
+ \end{center}
+\end{table}
+
+
+Text of the subsubsection.
+Text of the subsubsection.
+Text of the subsubsection.
+Text of the subsubsection.
+Text of the subsubsection.
+
+
+\section{Section}
+
+Filling text; filling text.
+
+Filling text; filling text.
+Filling text; filling text.
+Filling text; filling text.
+Filling text; filling text.
+Filling text; filling text.
+
+Filling text; filling text.
+Filling text; filling text.
+Filling text; filling text.
+Filling text; filling text.
+Filling text; filling text.
+Filling text; filling text.
+
+\section{Section}
+
+Text. Text. Text. Text. Text.
+Text. Text. Text. Text. Text.
+
+Text. Text. Text. Text. Text.
+Text. Text. Text. Text. Text.
+Text. Text. Text. Text. Text.
+
+Text. Text. Text. Text. Text.
+Text. Text. Text. Text. Text.
+Text. Text. Text. Text. Text.
+Text. Text. Text. Text. Text.
+Text. Text. More text. Text. Text.
+Text. Text. Text. Text. Text.
+
+Text. Text. Text. Text. Text.
+Text. Text. Text. Text. Text.
+
+\section{Conclusions}
+
+Concluding text.
+
+\bibliographystyle{acl}
+\bibliography{sample}
+
+\end{document}
