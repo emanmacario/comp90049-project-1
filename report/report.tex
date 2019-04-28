@@ -1,5 +1,6 @@
 \documentclass[11pt]{article}
 \usepackage{colacl}
+\usepackage{xcolor}
 \sloppy
 
 \title{COMP90049 Knowledge Technologies - Project 1 Report}
@@ -60,7 +61,7 @@ due to the variability of implementations, and machine specifications.
 \section{Methodology/Implementation}
 In order to efficiently process the data, the algorithms were applied to each unique misspelled word.
 The LD and DLD algorithms were compiled in C and imported into Python for increased efficiency. N-gram
-similarity was computed via the Python ngram library [3] by Poulter et. al. To capture the effect of the same misspelled words potentially being used in widely varying contexts, it was decided to evaluate all normalisation techniques on the full set of 10,322 word pairs. 
+similarity was computed via the Python ngram library [3] by Poulter et. al. To capture the effect of the same misspelled words potentially being used in widely varying contexts, a decision was made to evaluate both edit distance normalisation techniques on the full set of 10,322 word pairs. 
 
 
 \section{Results}
@@ -111,23 +112,44 @@ The two tables below summarise the final results:
 % TODO: Frequency/minimum  distance graphs
 % TODO:
 
-From the results, it can be seen that LD and DLD are moderately accurate in returning the canonical form for a given misspelled word, both having a recall of approximately 78\%. However, both metrics e imprecise, with each returning an average of approximately 4 matches per misspelled token.
+\subsection{Overall Summary}
+From the results, it can be seen that LD and DLD are moderately accurate in returning the canonical form for a given misspelled word, both having a recall of approximately 78\%. However, both metrics exhibit low precision, with each returning an average of approximately 4 matches per misspelled token.
+
+
+\subsection{Similarities}
+However, the edit distance metrics perform very similarly. With the algorithms essentially sharing three of four same allowable operations, and the denseness of the dictionary, these similarities in evaluation metrics are not unprecedented. One indicator that the algorithms perform very similarly is the fact that out of 3,755 unique misspelled words, 3,550 (94.5 \%) of them have the same number of matches returned for both LD and DLD.
 \\
 
+Moreover, both algorithms exhibit a moderately low precision. This could be due to the density of the dictionary, and the fact that many dictionary words share the same lowest edit-distance for a given misspelled word. For example, the misspelled word `2b806641' is returned N matches in LD.
+
+
+\subsection{Differences}
 
 LD narrowily outperforms DLD with respect to precision, but DLD performs better with respect to recall. One reason for this could be the fact that  DLD allows for adjacent character transpositions. Due to the nature of the misspelled words being derived from tweets, it can be argued that character transpositions are very likely to occur in them, and hence, allow the system to capture this property of tweets and reverse it during lexical normalisation. An example of this is the word pair X and Y.
 \\
 
-However, the edit distance metrics perform very similarly. With the algorithms essentially sharing three of four same allowable operations, and the denseness of the dictionary, it could be generalised that the matches  resulting from DLD are a subset of LD???. One indicator that the algorithms perform very similarly is the fact that out of 3,755 unique misspelled words, 3,550 (94.5 percent) of them have the same number of matches returned for both LD and DLD.
-\\
-
-Both algorithms exhibit a moderately low precision. This could be due to the density of the dictionary, and the fact that many dictionary words share the same lowest edit-distance for a given misspelled word. For example, the misspelled word `2b806641' is returned N matches in LD.
-\\
-
+A reason for DLD having lower precision than LD could be the fact that its allowable edit operations are a superset of the operations of LD. Hence, when DLD does not find matches with a lower shared edit distance than LD, DLD matches can be a superset of the LD matches. An example of this is shown in Table 3 for the misspelled token `katniss'. Due to additional matches, this may slightly decrease the precision of DLD.
+\begin{table}
+\begin{center}
+\begin{tabular}{ |l|l|l| }
+\hline
+LD & DLD \\
+\hline
+catnips & catnips\\
+fatness & fatness\\ 
+kainits & kainits\\
+patness & patness\\
+warniss & warniss\\
+ & kantism\\
+ & kantist\\
+\hline
+\end{tabular}
+\caption{LD and DLD matches for misspelled token `katniss' (distance=2)}\label{table3}
+\end{center}
+\end{table}
 An example showing the different behaviours of the two edit-distance algorithms is seen via the misspelled word X and corrected word Z.
-\\
 
-DLD does have some disadvantages. Words which have long legth, and are linguistically similar, can have a greater DLD than shorter words which are very different.
+DLD does have some disadvantages, however. Words which have long length, and are linguistically similar, can have a greater DLD than shorter words which are very different.
 
 
 \section{Improvements}
@@ -156,7 +178,7 @@ As both LD and DLD are relatively imprecise metrics with respect to the problem,
 
 
 \section{Conclusions}
-The use of approximate string matching methods certainly has a place in the difficult task of lexical normalisation of short messages from social media. It is clear, however, that such rudimentary methods such as LD and DLD would not be suitable for approaching such tasks in real word applications. Instead, these methods may be used as baselines and extended to reduce the number of arbitary ties between numerous matches, in order to greatly narrow down matching results to the very most likely correct candidate tokens. 
+The use of approximate string matching methods certainly has a place in the difficult task of lexical normalisation of short messages from social media. It is clear, however, that such rudimentary methods such as LD and DLD would not be the most suitable for approaching such tasks in real word applications. Instead, these methods may be used as baselines and extended to reduce the number of arbitary ties between  matches, in order to greatly narrow down matching results to the very most likely correct candidate tokens. 
 
 
 
@@ -177,9 +199,6 @@ Text of the subsubsection (see Table~\ref{table1}).
 
 
 
-
-Text of the subsubsection.
-Text of the subsubsection.
 
 \bibliographystyle{acl}
 \bibliography{sample}
