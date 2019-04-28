@@ -45,12 +45,23 @@ Levenshtein (Desktop)
     user    25m43.719s
     sys     0m2.047s
 
+Damerau-Levenshtein (Desktop)
+    real    160m2.459s
+    user    80m43.484s
+    sys     0m44.625s
+
 
 EVALUATION METHODS
 Precision = number of correct results returned / total number of results returned = (1+1)/(10+2) = 2/12
 Recall    = number of correct results returned / total number of possible correct results = (1+1)/(1+1) = 2/2
           NB: Recall uses only words in 'correct.txt' for words in the denominator
 
+
+
+
+
+DLD ONLY:
+(liek, like), (betetr, better), (hsit, shit)
 
 =================================
 LMS DATA OBSERVATION
@@ -70,7 +81,6 @@ canonical form (for example, 'rt' in 'misspell.txt' has its canonical form 'rt',
 I found that there are only around 3% of tokens in 'misspell.txt' that need to be and can possibly be corrected.
 
 Is the projected made in this way intentionally? Or I misunderstand something?
-
 
 ================================
 BIBLIOGRAPHY
