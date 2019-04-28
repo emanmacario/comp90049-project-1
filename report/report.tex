@@ -2,12 +2,9 @@
 \usepackage{colacl}
 \sloppy
 
-
-
 \title{COMP90049 Knowledge Technologies - Project 1 Report}
 \author
 {Anonymous}
-
 
 
 \begin{document}
@@ -20,20 +17,28 @@
 %\end{abstract}
 
 \section{Introduction}
-Lexical normalisation is the problem of finding a canonical form for each token within a document. The task of quantifying the similarity between two strings in numerous applications, with many similarity measures being proposed. The most well-known used algorithms are based on simple measures such as edit-distance and n-gram similarity. In contrast, other forms of normalisation are based on phonetic similarity, rather than lexical similarity. 
+Lexical normalisation is the problem of finding a canonical form for each token within a document. The task of quantifying the similarity between two strings in numerous applications, with many similarity measures being proposed. The most well-known used algorithms are based on simple measures such as edit-distance and n-gram similarity. In contrast, other forms of normalisation are based on phonetic similarity, rather than lexical similarity.
+\\
 
-The task of this project is to leverage spelling correction methods for each token within a document. The document will correspond to short messages, i.e. tweets from the social media platform Twitter.The focus of this report will be to contrast two approximate string matching techniques, based on edit-distance. Mainly, the core focus of this report will be to reveal which technique performs better, with respect to computational efficiency and numerous evaluation methods.
+This report analyses different spelling correction methods for each token within a document. The document will correspond to short messages, i.e. tweets from the social media platform Twitter. The focus of this report will be to contrast two approximate string matching techniques, based on edit-distance. Mainly, the core focus of this report will be to reveal which technique performs better, with respect to computational efficiency and numerous evaluation methods.
 
 \section{Dataset}
 
 The data given is a collection of words composed of English alphabetical symbols, some standard English words, while many are non-standard lexical items.
-More specifically, the dataset, curated by [1] et. al, comprises of 10,322 misspelled token and corrected token pairs, lowercased, and a reference dictionary containing 370,099 possible matches, sorted alphabetically. For each misspelled token in the dataset, lexical normalisation was attempted by predicting the best possible matches with respect to the reference collection.
+More specifically, the dataset, curated by [1] et. al, comprises of 10,322 misspelled token and corrected token pairs, lowercased, and a reference dictionary containing 370,099 possible matches, sorted alphabetically. For each misspelled token in the dataset, lexical normalisation was attempted by predicting the best possible matches with respect to the reference collection and a similarity metric.
 
 
 
 \section{String Similarity Metrics}
+Two variations of edit-distance and one variation of n-gram similarity have been used for lexical normalisation.
 \subsection{Edit Distance}
-In this section, we discuss the notion edit distance in the context of its applicability as a string similarity measure. Levenshtein distance (LD), with parameters (m,i,d,r) = (0,1,1,1) is a widely used string similarity measure. Informally, the Levenshtein distance between two words is the minimum number of single character edits (insertions, deletions, or replacements) required to change one word into another. An extension thereof is the Dameru-Levenshtein distance (DLD), which differs from LD by including transposition of two adjacent characters among its allowable operations in addition to the three classical aforementioned single-character edit operations. For both the standard and extended variations, a lower value indicates greater similarity between two strings
+In this section, we discuss the notion edit distance in the context of its applicability as a string similarity metric used for the aforementioned task. 
+
+\subsubsection{Levenshtein Distance}
+Levenshtein distance (LD), with parameters (m,i,d,r) = (0,1,1,1) is a form of global edit distance. Informally, the Levenshtein distance between two words is the minimum number of single character edits (insertions, deletions, or replacements) required to change one word into another. 
+
+\subsubsection{Damerau-Levenshtein Distance}
+An extension thereof is the Dameru-Levenshtein distance (DLD). This differs from LD by including transposition of two adjacent characters among its allowable operations, in addition to the three classical  single-character edit operations. For both the standard and extended variations, a lower value indicates greater similarity between two strings
 
 \subsection{N-gram Similarity}
 The string similarity metric of n-gram similarity (n=2) was used to break ties where more than one match occurred. The reason for doing so was an attempt to increase precision, and decrease the number of incorrect matches returned.
@@ -41,15 +46,18 @@ The string similarity metric of n-gram similarity (n=2) was used to break ties w
 
 \section{Evaluation Metrics}
 For the purpose of this task, two different evaluation metrics have been utilised to analyse the performance of the system, including:
-Precision: the proportion of correct results returned, with respect to the total number of results returned
-Recall: the proportion of correct results returned, with respect to the total number of possible correct results.
-
+\begin{itemize}
+\item Precision: the proportion of correct results returned, with respect to the total number of results returned
+\item Recall: the proportion of correct results returned, with respect to the total number of possible correct results.
+\end{itemize}
 The metric of accuracy was also considered, but was ultimately decided not to be suitable for this context.
 Moreover, the efficiency of both systems was also evaluated, but little emphasis has been placed on this
 due to the variability of implementations, and machine specifications.
 
 
-\section{Methodolgy/Implementation}
+
+
+\section{Methodology/Implementation}
 In order to efficiently process the data, the algorithms were applied to each unique misspelled word.
 The LD and DLD algorithms were compiled in C and imported into Python for increased efficiency. N-gram
 similarity was computed via the Python ngram library [3] by Poulter et. al. To capture the effect of the same misspelled words potentially being used in widely varying contexts, it was decided to evaluate all normalisation techniques on the full set of 10,322 word pairs. 
@@ -58,33 +66,97 @@ similarity was computed via the Python ngram library [3] by Poulter et. al. To c
 \section{Results}
 The two tables below summarise the final results:
 
-Levenshtein distance
-Precision: 0.1962
-Recall: 0.7738
-Average Matches: 3.9447
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|l|l|}
+      \hline
+      Precision & 0.1962\\
+      \hline
+      Recall & 0.7738\\
+      \hline
+      Avg. Matches & 3.9447\\
+      \hline
+      Tokens/min & 142.96\\
+      \hline
+      Mean Avg. Precision & X\\
+      \hline
+\end{tabular}
+\caption{LD results for 10,322 word pairs}\label{table1}
+\end{center}
+\end{table}
 
 
-Damerau-Levenshtein Distance
-Precision: 0.1957
-Recall: 0.7741
-Average Matches: 3.9557
-
-N-gram Similarity (n=2)
-Precision:
-Recall:
-Average Matches:
-
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|l|l|}
+      \hline
+      Precision & 0.1957\\
+      \hline
+      Recall & 0.7741\\
+      \hline
+      Avg. Matches & 3.9557\\
+      \hline
+      Tokens/min & 23.46\\
+      \hline
+      Mean Avg. Precision & X\\
+      \hline
+\end{tabular}
+\caption{DLD results for 10,322 word pairs}\label{table2}
+\end{center}
+\end{table}
 
 \section{Analysis}
-As can be seen in the results tables, DLD narrowly outperforms LD. One reason for this could be the fact that  DLD allows for adjacent character transpositions. Due to the nature of the misspelled words being derived from tweets, it can be argued that character transpositions are very likely to occur in them, and hence, allow the system to capture this property of tweets and reverse it during lexical normalisation. An example of this is the word pair X and Y.
 
-However, the edit distance metrics perform very similarly. With the algorithms essentially sharing three of four same allowable operations, and the denseness of the dictionary, it could be generalised that the matches  resulting from DLD are a subset of LD.
+% TODO: Out of 94.5% of matches, figure out how many are exactly same
+% TODO: Frequency/minimum  distance graphs
+% TODO:
 
-Both algorithms exhibit a moderately low precision. This could be due to the density of the dictionary, and the fact that many dictionary words share the same lowest edit-distance for a given misspelled word.
+From the results, it can be seen that LD and DLD are moderately accurate in returning the canonical form for a given misspelled word, both having a recall of approximately 78\%. However, both metrics e imprecise, with each returning an average of approximately 4 matches per misspelled token.
+\\
 
 
-\section{Conclusion}
-The use of approximate string matching methods certainly has a place in the difficult task of lexical normalisation of short messages from social media. It is clear, however, that such rudimentary methods such as LD and DLD would not be suitable for approaching such tasks in the real word. Instead, these methods may be used as baselines due to their low precision and moderately high recall. These methods could be extended to reduce the number of arbitary ties between numerous matches, and instead narrow results down to the most likely correct candidates. 
+LD narrowily outperforms DLD with respect to precision, but DLD performs better with respect to recall. One reason for this could be the fact that  DLD allows for adjacent character transpositions. Due to the nature of the misspelled words being derived from tweets, it can be argued that character transpositions are very likely to occur in them, and hence, allow the system to capture this property of tweets and reverse it during lexical normalisation. An example of this is the word pair X and Y.
+\\
+
+However, the edit distance metrics perform very similarly. With the algorithms essentially sharing three of four same allowable operations, and the denseness of the dictionary, it could be generalised that the matches  resulting from DLD are a subset of LD???. One indicator that the algorithms perform very similarly is the fact that out of 3,755 unique misspelled words, 3,550 (94.5 percent) of them have the same number of matches returned for both LD and DLD.
+\\
+
+Both algorithms exhibit a moderately low precision. This could be due to the density of the dictionary, and the fact that many dictionary words share the same lowest edit-distance for a given misspelled word. For example, the misspelled word `2b806641' is returned N matches in LD.
+\\
+
+An example showing the different behaviours of the two edit-distance algorithms is seen via the misspelled word X and corrected word Z.
+\\
+
+DLD does have some disadvantages. Words which have long legth, and are linguistically similar, can have a greater DLD than shorter words which are very different.
+
+
+\section{Improvements}
+As both LD and DLD are relatively imprecise metrics with respect to the problem, an attempt was made to increase precision by using bigram similarity to break ties amongst multiple matches. The results from the attempt are summarised below:
+
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|l|l|}
+      \hline
+      Precision & 0.1957\\
+      \hline
+      Recall & 0.7741\\
+      \hline
+      Avg. Matches & 3.9557\\
+      \hline
+      Tokens/min & 23.46\\
+      \hline
+      Mean Avg. Precision & X\\
+      \hline
+\end{tabular}
+\caption{DLD \& 2-gram similarity results for 10,322 word pairs}\label{table2}
+\end{center}
+\end{table}
+
+
+
+\section{Conclusions}
+The use of approximate string matching methods certainly has a place in the difficult task of lexical normalisation of short messages from social media. It is clear, however, that such rudimentary methods such as LD and DLD would not be suitable for approaching such tasks in real word applications. Instead, these methods may be used as baselines and extended to reduce the number of arbitary ties between numerous matches, in order to greatly narrow down matching results to the very most likely correct candidate tokens. 
 
 
 
@@ -103,71 +175,11 @@ Text,\footnote{Footnote text} with footnotes at bottom of page.
 The dataset that has been curated by [1][2] comprises of a 
 Text of the subsubsection (see Table~\ref{table1}).
 
-\begin{table}[h]
- \begin{center}
-\begin{tabular}{|l|l|}
 
-      \hline
-      Corpus & Features\\
-      \hline\hline
-      AAA & 1M words\\
-      BBB & spoken corpus (expensive)\\
-      CCC & 2M words\\
-        & free (to academics)\\
-      \hline
-
-\end{tabular}
-\caption{The caption of the table}\label{table1}
- \end{center}
-\end{table}
 
 
 Text of the subsubsection.
 Text of the subsubsection.
-Text of the subsubsection.
-Text of the subsubsection.
-Text of the subsubsection.
-
-
-\section{Section}
-
-Filling text; filling text.
-
-Filling text; filling text.
-Filling text; filling text.
-Filling text; filling text.
-Filling text; filling text.
-Filling text; filling text.
-
-Filling text; filling text.
-Filling text; filling text.
-Filling text; filling text.
-Filling text; filling text.
-Filling text; filling text.
-Filling text; filling text.
-
-\section{Section}
-
-Text. Text. Text. Text. Text.
-Text. Text. Text. Text. Text.
-
-Text. Text. Text. Text. Text.
-Text. Text. Text. Text. Text.
-Text. Text. Text. Text. Text.
-
-Text. Text. Text. Text. Text.
-Text. Text. Text. Text. Text.
-Text. Text. Text. Text. Text.
-Text. Text. Text. Text. Text.
-Text. Text. More text. Text. Text.
-Text. Text. Text. Text. Text.
-
-Text. Text. Text. Text. Text.
-Text. Text. Text. Text. Text.
-
-\section{Conclusions}
-
-Concluding text.
 
 \bibliographystyle{acl}
 \bibliography{sample}
